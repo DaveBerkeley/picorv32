@@ -56,8 +56,27 @@ icebsim: icebreaker_tb.vvp icebreaker_fw.hex
 icebsynsim: icebreaker_syn_tb.vvp icebreaker_fw.hex
 	vvp -N $< +firmware=icebreaker_fw.hex
 
-icebreaker.json: icebreaker.v ice40up5k_spram.v spimemio.v simpleuart.v picosoc.v ../picorv32.v
-	yosys -ql icebreaker.log -p 'synth_ice40 -top icebreaker -json icebreaker.json' $^
+LED_PATH=/home/dave/Desktop/git/fpga/leds
+ADD_SRC=$(LED_PATH)/leds.v
+
+DSP_PATH=/home/dave/Desktop/git/fpga/dsp
+ADD_SRC+=$(DSP_PATH)/sk9822.v
+ADD_SRC+=$(DSP_PATH)/audio_engine.v
+ADD_SRC+=$(DSP_PATH)/sequencer.v
+ADD_SRC+=$(DSP_PATH)/dpram.v
+ADD_SRC+=$(DSP_PATH)/gpio.v
+ADD_SRC+=$(DSP_PATH)/iomem.v
+ADD_SRC+=$(DSP_PATH)/multiplier.v
+ADD_SRC+=$(DSP_PATH)/accumulator.v
+ADD_SRC+=$(DSP_PATH)/shifter.v
+ADD_SRC+=$(DSP_PATH)/addr_adder.v
+ADD_SRC+=$(DSP_PATH)/i2s_clock.v
+ADD_SRC+=$(DSP_PATH)/i2s_tx.v
+ADD_SRC+=$(DSP_PATH)/i2s_rx.v
+
+icebreaker.json: icebreaker.v ice40up5k_spram.v spimemio.v simpleuart.v picosoc.v ../picorv32.v $(ADD_SRC)
+	# verilator --top-module icebreaker config.vlt /usr/share/yosys/ice40/cells_sim.v $(ADD_SRC) icebreaker.v --lint-only -Wall
+	yosys -ql icebreaker.log -p 'synth_ice40 -dsp -top icebreaker -json icebreaker.json' $^
 
 icebreaker_tb.vvp: icebreaker_tb.v icebreaker.v ice40up5k_spram.v spimemio.v simpleuart.v picosoc.v ../picorv32.v spiflash.v
 	iverilog -s testbench -o $@ $^ `yosys-config --datdir/ice40/cells_sim.v`
@@ -69,7 +88,7 @@ icebreaker_syn.v: icebreaker.json
 	yosys -p 'read_json icebreaker.json; write_verilog icebreaker_syn.v'
 
 icebreaker.asc: icebreaker.pcf icebreaker.json
-	nextpnr-ice40 --freq 13 --up5k --asc icebreaker.asc --pcf icebreaker.pcf --json icebreaker.json
+	nextpnr-ice40 --package sg48 --freq 13 --up5k --asc icebreaker.asc --pcf icebreaker.pcf --json icebreaker.json
 
 icebreaker.bin: icebreaker.asc
 	icetime -d up5k -c 12 -mtr icebreaker.rpt icebreaker.asc

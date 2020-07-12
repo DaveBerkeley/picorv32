@@ -1,0 +1,7 @@
+`verilator_config
+lint_off -file "/usr/share/yosys/ice40/cells_sim.v"
+lint_off -file "spimemio.v"
+lint_off -file "icebreaker.v"
+lint_off -file "simpleuart.v"
+lint_off -file "picosoc.v"
+lint_off -rule DECLFILENAME

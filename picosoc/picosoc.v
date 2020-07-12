@@ -138,7 +138,7 @@ module picosoc (
 		.ENABLE_COUNTERS(ENABLE_COUNTERS),
 		.ENABLE_MUL(ENABLE_MULDIV),
 		.ENABLE_DIV(ENABLE_MULDIV),
-		.ENABLE_IRQ(1),
+		.ENABLE_IRQ(0),
 		.ENABLE_IRQ_QREGS(ENABLE_IRQ_QREGS)
 	) cpu (
 		.clk         (clk        ),
