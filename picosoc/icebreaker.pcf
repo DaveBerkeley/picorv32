@@ -27,17 +27,17 @@ set_io ledg_n     37
 # PMOD 1A
 set_io i2s_sck    4     # P1A1
 set_io i2s_ws     2     # P1A2
-set_io test0      47    # P1A3
-set_io i2s_d0     45    # P1A4
-set_io i2s_d1     3     # P1A7
-set_io i2s_d2     48    # P1A8
-set_io i2s_d3     46    # P1A9
+set_io i2s_d0     47    # P1A3
+set_io i2s_d1     45    # P1A4
+set_io i2s_d2     3     # P1A7
+set_io i2s_d3     48    # P1A8
+#set_io i2s_dx     46    # P1A9
 
 # PMOD 1B
 set_io out_sck    43    # P1B1
 set_io out_ws     38    # P1B2
 set_io out_sd     34    # P1B3
-set_io test1      31    # P1B4
+set_io test0      31    # P1B4
 
 set_io -nowarn P1A10      44 # P1A10
 
