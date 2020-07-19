@@ -73,6 +73,8 @@ ADD_SRC+=$(DSP_PATH)/addr_adder.v
 ADD_SRC+=$(DSP_PATH)/i2s_clock.v
 ADD_SRC+=$(DSP_PATH)/i2s_tx.v
 ADD_SRC+=$(DSP_PATH)/i2s_rx.v
+ADD_SRC+=$(DSP_PATH)/twos_complement.v
+ADD_SRC+=$(DSP_PATH)/pipe.v
 
 icebreaker.json: icebreaker.v ice40up5k_spram.v spimemio.v simpleuart.v picosoc.v ../picorv32.v $(ADD_SRC)
 	# verilator --top-module icebreaker config.vlt /usr/share/yosys/ice40/cells_sim.v $(ADD_SRC) icebreaker.v --lint-only -Wall
